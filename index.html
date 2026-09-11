@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blinkcart — കണ്ണുണ്ടായാൽ പോരാ, ചിമ്മണം</title>
+    <meta name="description" content="Blinkcart is a parody fintech experience for people with too many blinks and too little sense. Kannundayal pora, chimmanam — having eyes isn't enough, you've got to blink them. Blink to earn fictional money, blink again to blow it on nonsense. No real money, no real regrets (okay, some regrets).">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Kalam:wght@400;700&family=Baloo+Chettan+2:wght@600;700;800&family=Chilanka&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="skip-link" href="#dashboard">Skip to dashboard</a>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="#dashboard">
+                <span class="brand-mark" aria-hidden="true">●</span>
+                BLINKCART
+            </a>
+
+            <nav class="nav" aria-label="Primary">
+                <a href="#dashboard">Dashboard</a>
+                <a href="#marketplace">Marketplace</a>
+                <a href="#assets">Assets</a>
+                <a href="#history">History</a>
+            </nav>
+
+            <div class="header-wallet" aria-live="polite">
+                <span class="sr-only">Wallet balance</span>
+                <span id="headerBalance">₹0</span>
+            </div>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <nav id="mobileNav" class="mobile-nav" hidden>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#marketplace">Marketplace</a>
+            <a href="#assets">Assets</a>
+            <a href="#history">History</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dashboard" class="hero">
+            <div class="hero-deco" aria-hidden="true">
+                <span class="deco-dot deco-red"></span>
+                <span class="deco-dot deco-green"></span>
+                <span class="deco-dot deco-blue"></span>
+                <span class="deco-dot deco-yellow"></span>
+                <span class="deco-dot deco-purple"></span>
+                <span class="deco-pixel">👁️</span>
+            </div>
+            <p class="eyebrow">Parody fintech · Fictional rupees only</p>
+            <h1>Blinkcart</h1>
+            <p class="malayalam-line">"കണ്ണുണ്ടായാൽ പോരാ, ചിമ്മണം"</p>
+            <p class="malayalam-gloss">kannundayal pora, chimmanam — having eyes isn't enough, you've gotta blink.</p>
+            <p class="malayalam-hype">നിങ്ങൾക്കും ആകാം കോടീശ്വരൻ<br>ചിമ്മി നേടൂ കോടികൾ</p>
+            <p class="tagline">Go broke by doing absolutely nothing.</p>
+            <p class="lede">Blink to earn money. Blink again to spend it.<br>Financial responsibility has left the chat.</p>
+        </section>
+
+        <section class="dashboard-grid" aria-label="Wallet and camera">
+            <article class="card wallet-card">
+                <p class="card-kicker">WALLET</p>
+                <p class="balance" id="walletBalance">₹0</p>
+                <p class="mode-pill" id="modePill">
+                    <span class="mode-dot" aria-hidden="true"></span>
+                    <span id="modeLabel">NORMAL MODE</span>
+                </p>
+                <ul class="wallet-stats">
+                    <li>
+                        <span class="stat-icon" aria-hidden="true">👁️</span>
+                        <span><strong id="statBlinks">0</strong> Blinks</span>
+                    </li>
+                    <li>
+                        <span class="stat-icon" aria-hidden="true">💰</span>
+                        <span>₹<strong id="statEarned">0</strong> Earned</span>
+                    </li>
+                    <li>
+                        <span class="stat-icon" aria-hidden="true">🛒</span>
+                        <span>₹<strong id="statSpent">0</strong> Spent</span>
+                    </li>
+                    <li>
+                        <span class="stat-icon" aria-hidden="true">📦</span>
+                        <span><strong id="statPurchases">0</strong> Purchases</span>
+                    </li>
+                </ul>
+                <p class="sarcasm" id="walletSarcasm" aria-live="polite"></p>
+            </article>
+
+            <article class="card camera-card">
+                <div class="camera-head">
+                    <div>
+                        <p class="card-kicker">WEBCAM</p>
+                        <p class="camera-status" id="cameraStatus">
+                            <span class="status-dot idle" aria-hidden="true"></span>
+                            Camera Off
+                        </p>
+                    </div>
+                    <div class="blink-counter" aria-live="polite">
+                        <p class="card-kicker">BLINKS</p>
+                        <p class="blink-count" id="blinkCountDisplay">0</p>
+                        <span class="blink-pop" id="blinkPop" hidden>+1 BLINK</span>
+                    </div>
+                </div>
+
+                <div class="video-stage" id="videoStage">
+                    <video id="webcam" playsinline autoplay muted aria-label="Live webcam feed"></video>
+                    <canvas id="overlayCanvas" aria-hidden="true"></canvas>
+                    <div class="video-placeholder" id="videoPlaceholder">
+                        <p class="placeholder-eye" aria-hidden="true">👁️</p>
+                        <p>Blinkcart needs your eyes.</p>
+                        <p class="placeholder-sub">കണ്ണ് ഇങ്ങോട്ട്, ചിമ്മാൻ റെഡിയാ?</p>
+                        <button type="button" class="btn btn-primary" id="startCameraBtn">START BLINKING</button>
+                    </div>
+                    <div class="video-message" id="videoMessage" hidden></div>
+                    <div class="face-banner" id="faceBanner" hidden></div>
+                </div>
+
+                <div class="camera-actions">
+                    <button type="button" class="btn btn-ghost" id="stopCameraBtn" hidden>STOP CAMERA</button>
+                    <p class="hint" id="detectHint">Camera stays off until you start. That is the last responsible decision you will make here.</p>
+                </div>
+            </article>
+        </section>
+
+        <section id="purchasePanel" class="card purchase-panel" hidden>
+            <p class="card-kicker">PURCHASING</p>
+            <h2 id="purchaseProductName">Product</h2>
+            <p class="purchase-progress-label" id="purchaseProgressLabel">Blink 0 / 0</p>
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="purchaseProgressBar">
+                <div class="progress-fill" id="purchaseProgressFill"></div>
+            </div>
+            <p class="purchase-note">These blinks authorize the purchase. They do not earn money.</p>
+            <button type="button" class="btn btn-ghost" id="cancelPurchaseBtn">CANCEL THIS MISTAKE</button>
+        </section>
+
+        <section id="marketplace" class="section">
+            <div class="section-head">
+                <p class="card-kicker">MARKETPLACE</p>
+                <h2>Useless things, premium prices.</h2>
+                <p>Buy with blinks. Regret with your remaining neurons.</p>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <section id="assets" class="section">
+            <div class="section-head">
+                <p class="card-kicker">YOUR ASSETS</p>
+                <h2>A portfolio of nothing.</h2>
+            </div>
+            <div class="card inventory-card" id="inventoryList"></div>
+        </section>
+
+        <section id="history" class="section">
+            <div class="section-head">
+                <p class="card-kicker">TRANSACTION HISTORY</p>
+                <h2>Every blink, documented.</h2>
+            </div>
+            <div class="card history-card">
+                <ul id="historyList"></ul>
+            </div>
+        </section>
+
+        <section class="section settings-section">
+            <button type="button" class="btn btn-danger" id="resetBtn">RESET MY TERRIBLE FINANCIAL DECISIONS</button>
+            <p class="fine-print">All currency shown is fictional. No real money is involved.</p>
+        </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <div class="potato-celebration" id="potatoCelebration" role="status" aria-live="polite" hidden>
+        <div class="potato-flight-layer" aria-hidden="true"></div>
+        <div class="potato-sparkles" aria-hidden="true">✦　✧　✦</div>
+        <div class="potato-arrival" aria-hidden="true">
+            <span class="potato-item">🥔</span>
+            <span class="potato-cart">🛒</span>
+        </div>
+        <strong>Potato added to cart!</strong>
+        <span>One tiny spud. One huge regret.</span>
+    </div>
+
+    <div class="air-celebration" id="airCelebration" role="status" aria-live="polite" hidden>
+        <div class="air-cloud" aria-hidden="true">☁️</div>
+        <div class="air-wisps" aria-hidden="true">
+            <span>💨</span><span>💨</span><span>💨</span>
+        </div>
+        <strong>Air successfully stored in the Cloud.</strong>
+        <span>0% humidity. 100% nothing.</span>
+    </div>
+
+    <div class="attention-scare" id="attentionScare" hidden>
+        <img class="attention-scare-img" src="attention-nun.png" alt="">
+    </div>
+
+    <div class="firecracker-celebration" id="firecrackerCelebration" hidden>
+        <video class="firecracker-video" id="firecrackerVideo" src="firecrackers-burst.mp4" muted playsinline preload="auto"></video>
+    </div>
+
+    <div class="overlay" id="firstBlinkOverlay" hidden>
+        <div class="overlay-card" role="dialog" aria-labelledby="firstBlinkTitle">
+            <p class="overlay-icon" aria-hidden="true">👁️</p>
+            <h2 id="firstBlinkTitle">BLINK DETECTED</h2>
+            <p class="overlay-amount">+₹1</p>
+            <p>You have officially monetized<br>doing absolutely nothing.</p>
+        </div>
+    </div>
+
+    <div class="overlay" id="fundsOverlay" hidden>
+        <div class="overlay-card" role="dialog" aria-labelledby="fundsTitle" aria-modal="true">
+            <h2 id="fundsTitle">INSUFFICIENT FUNDS</h2>
+            <p id="fundsBody"></p>
+            <button type="button" class="btn btn-primary" id="fundsDismissBtn">MAYBE BLINK MORE</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="successOverlay" hidden>
+        <div class="overlay-card" role="dialog" aria-labelledby="successTitle" aria-modal="true">
+            <p class="card-kicker">PAYMENT AUTHORIZED</p>
+            <h2 id="successTitle">Congratulations.</h2>
+            <p id="successBody"></p>
+            <button type="button" class="btn btn-primary" id="successDismissBtn">OWN THIS REGRET</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="bankruptOverlay" hidden>
+        <div class="overlay-card" role="dialog" aria-labelledby="bankruptTitle" aria-modal="true">
+            <p class="overlay-icon" aria-hidden="true">💀</p>
+            <h2 id="bankruptTitle">BANKRUPT</h2>
+            <p>Congratulations.</p>
+            <p>You successfully turned blinking<br>into financial ruin.</p>
+            <p class="overlay-amount">Net worth: ₹0</p>
+            <p id="bankruptAssets"></p>
+            <button type="button" class="btn btn-primary" id="bankruptDismissBtn">BLINK YOUR WAY BACK</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="resetOverlay" hidden>
+        <div class="overlay-card" role="dialog" aria-labelledby="resetTitle" aria-modal="true">
+            <h2 id="resetTitle">Are you sure?</h2>
+            <p>This will erase all your blinks, money, purchases and financial mistakes.</p>
+            <div class="overlay-actions">
+                <button type="button" class="btn btn-ghost" id="resetCancelBtn">KEEP MY MISTAKES</button>
+                <button type="button" class="btn btn-danger" id="resetConfirmBtn">ERASE EVERYTHING</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
