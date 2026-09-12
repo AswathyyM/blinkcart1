@@ -302,6 +302,29 @@ h1 {
     margin: 16px 0 0;
     display: inline-block;
     transform: rotate(-2deg);
+    transform-origin: center;
+    animation: malayalamBlink 4.2s ease-in-out infinite;
+}
+
+@keyframes malayalamBlink {
+    0%, 88%, 100% {
+        opacity: 1;
+        transform: rotate(-2deg) scaleY(1);
+    }
+    92% {
+        opacity: 0.2;
+        transform: rotate(-2deg) scaleY(0.12);
+    }
+    96% {
+        opacity: 1;
+        transform: rotate(-2deg) scaleY(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .malayalam-line {
+        animation: none;
+    }
 }
 
 .malayalam-gloss {
