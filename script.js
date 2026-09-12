@@ -9,6 +9,72 @@ import {
 
 const STORAGE_KEY = "blinkcart-state-v1";
 
+/* Persistent, preloaded audio elements. Reusing the same Audio object (instead of
+   `new Audio(...)` on every trigger) avoids the fetch+decode delay that made sound
+   noticeably lag behind the visual on first play. `primeSfx()` below warms all three
+   up on the very first user interaction so later plays are effectively instant. */
+const sfx = {
+    meow: new Audio("mixkit-sweet-kitty-meow-93.wav"),
+    firecracker: new Audio("firecracker-burst.mp3"),
+    stinger: new Audio("horror-stinger.wav")
+};
+
+Object.keys(sfx).forEach(function (key) {
+    sfx[key].preload = "auto";
+    sfx[key].load();
+});
+
+let sfxPrimed = false;
+
+function primeSfx() {
+    if (sfxPrimed) {
+        return;
+    }
+    sfxPrimed = true;
+
+    Object.keys(sfx).forEach(function (key) {
+        const audio = sfx[key];
+        const realVolume = audio.volume;
+        audio.muted = true;
+        const playResult = audio.play();
+        const reset = function () {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.muted = false;
+            audio.volume = realVolume;
+        };
+        if (playResult && typeof playResult.then === "function") {
+            playResult.then(reset).catch(function () {
+                audio.muted = false;
+            });
+        } else {
+            reset();
+        }
+    });
+}
+
+["pointerdown", "keydown"].forEach(function (eventName) {
+    window.addEventListener(eventName, primeSfx, { once: true, passive: true });
+});
+
+function playPrimedSound(key, volume) {
+    const audio = sfx[key];
+    try {
+        audio.currentTime = 0;
+        if (typeof volume === "number") {
+            audio.volume = volume;
+        }
+        const playResult = audio.play();
+        if (playResult && typeof playResult.catch === "function") {
+            playResult.catch(function () {
+                /* autoplay blocked or file missing — fail silently */
+            });
+        }
+    } catch (error) {
+        /* fail silently, do not break purchase flow */
+    }
+}
+
 const blinkRewards = [
     1,
     5,
@@ -638,18 +704,7 @@ function celebrateAirPurchase() {
 /* Isolated from blink/webcam, potato, and air celebrations. */
 /* Sound file: mixkit-sweet-kitty-meow-93.wav (project root, next to index.html). */
 function playCatPurchaseSound() {
-    try {
-        const meow = new Audio("mixkit-sweet-kitty-meow-93.wav");
-        meow.loop = false;
-        const playResult = meow.play();
-        if (playResult && typeof playResult.catch === "function") {
-            playResult.catch(function () {
-                /* autoplay blocked or file missing — fail silently */
-            });
-        }
-    } catch (error) {
-        /* fail silently, do not break purchase flow */
-    }
+    playPrimedSound("meow");
 }
 
 /* Isolated from blink/webcam, potato, air, cat, and attention effects. */
@@ -679,19 +734,7 @@ function hideFirecrackerCelebration() {
 }
 
 function playFirecrackerBurstSound() {
-    try {
-        const burst = new Audio("firecracker-burst.mp3");
-        burst.loop = false;
-        burst.volume = 0.9;
-        const playResult = burst.play();
-        if (playResult && typeof playResult.catch === "function") {
-            playResult.catch(function () {
-                /* autoplay blocked or file missing — fail silently */
-            });
-        }
-    } catch (error) {
-        /* fail silently, do not break purchase flow */
-    }
+    playPrimedSound("firecracker", 0.9);
 }
 
 function celebrateFirecrackerPurchase() {
@@ -731,19 +774,7 @@ function celebrateFirecrackerPurchase() {
 /* Isolated from blink/webcam, potato, air, and cat purchase effects. */
 /* Sound file: horror-stinger.wav (project root, next to index.html). */
 function playAttentionScareSound() {
-    try {
-        const stinger = new Audio("horror-stinger.wav");
-        stinger.loop = false;
-        stinger.volume = 0.85;
-        const playResult = stinger.play();
-        if (playResult && typeof playResult.catch === "function") {
-            playResult.catch(function () {
-                /* autoplay blocked or file missing — fail silently */
-            });
-        }
-    } catch (error) {
-        /* fail silently, do not break purchase flow */
-    }
+    playPrimedSound("stinger", 0.85);
 }
 
 const attentionFx = {
