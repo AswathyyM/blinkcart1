@@ -84,6 +84,8 @@ For Software:
 First Outline:<img width="1552" height="886" alt="image" src="https://github.com/user-attachments/assets/7e90bd02-93cf-45a5-baf8-bc3c4db5df92" />
 Available products:<img width="1488" height="911" alt="Screenshot 2026-09-12 040209" src="https://github.com/user-attachments/assets/10170610-33f6-40c8-bb97-6c7d0d4bda44" />
 Purchased items:<img width="1542" height="956" alt="image" src="https://github.com/user-attachments/assets/8cdf2099-427c-4782-a66a-de32a59f02c7" />
+#LIVE DEMO
+https://drive.google.com/file/d/18SfN4lfvPSOTKfHh6D19Vg2zSykEYCy3/view?usp=drive_link
 ## Team Contributions
 M ASWATHY:
 
